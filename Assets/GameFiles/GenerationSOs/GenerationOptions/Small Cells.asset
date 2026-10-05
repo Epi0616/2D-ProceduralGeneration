@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10974eb0eb813f44598fcd3a6a75ab23, type: 3}
+  m_Name: Small Cells
+  m_EditorClassIdentifier: Assembly-CSharp::GenerationOptionsSO
+  width: 356
+  height: 200
+  cellSize: 0.05
+  NoiseDensity: 55
+  Iterations: 5
+  Delay: 0.1
+  RemoveThreshold: 3
+  AddThreshold: 4
+  initialTileType: 2

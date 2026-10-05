@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f126f90c59e822946965b49427a6911d, type: 3}
+  m_Name: GrassToDirt
+  m_EditorClassIdentifier: Assembly-CSharp::TransitionLayer
+  MinY: 0.85
+  MaxY: 0.88
+  FromLayer: {fileID: 11400000, guid: 7d990f2dc6a68584cafc94fc2a1c19dc, type: 2}
+  ToLayer: {fileID: 11400000, guid: 42f01f5dfaeaecb4e9883d361d998659, type: 2}

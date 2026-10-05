@@ -1,0 +1,36 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(menuName = "ScriptableObjects/OreLayer")]
+public class OreLayer : GenerationLayer
+{
+    public int NumberOfVeinGenerationAttempts = 1;
+    public int MinNumberOfVeins = 1;
+    public int MinTilesPerVein = 0, MaxTilesPerVein = 1;
+    public int MaxDistanceFromStart = 1;
+
+    public override TileType GenerateTile()
+    {
+        return SelectRandomTile();
+    }
+
+    private TileType SelectRandomTile()
+    {
+        // Add all weightings
+        int totalWeight = 0;
+        foreach (TileGenerationData data in TilesInLayer)
+        {
+            totalWeight += data.weight;
+        }
+        // Generate a random 0 - 1 value
+        float random = Random.value * totalWeight;
+
+        foreach (TileGenerationData data in TilesInLayer)
+        {
+            random -= data.weight;
+            if (random <= 0) { return data.TileType; }
+        }
+
+        return TilesInLayer[0].TileType;
+    }
+}

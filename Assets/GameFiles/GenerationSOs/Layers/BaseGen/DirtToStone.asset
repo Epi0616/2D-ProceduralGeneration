@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f126f90c59e822946965b49427a6911d, type: 3}
+  m_Name: DirtToStone
+  m_EditorClassIdentifier: Assembly-CSharp::TransitionLayer
+  MinY: 0.7
+  MaxY: 0.75
+  FromLayer: {fileID: 11400000, guid: 42f01f5dfaeaecb4e9883d361d998659, type: 2}
+  ToLayer: {fileID: 11400000, guid: d6f789cb92da562499b19de80d54bcc9, type: 2}
