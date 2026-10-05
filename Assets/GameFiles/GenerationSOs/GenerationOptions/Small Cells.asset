@@ -15,9 +15,10 @@ MonoBehaviour:
   width: 356
   height: 200
   cellSize: 0.05
-  NoiseDensity: 55
-  Iterations: 5
   Delay: 0.1
   RemoveThreshold: 3
   AddThreshold: 4
   initialTileType: 2
+  SurfaceBaseHeight: 0.6
+  SurfaceScale: 25
+  SurfaceFrequency: 5

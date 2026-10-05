@@ -7,8 +7,9 @@ public class GenerationOptions
     public float noiseDensity = 50;
     public float Delay;
     public int RemoveThreshold, AddThreshold;
+    public int HeightVariance = 1;
 
-    public GenerationOptions(int width, int height, float cellSize, float noiseDensity, int Iterations, float Delay, int Remove, int Add)
+    public GenerationOptions(int width, int height, float cellSize, float noiseDensity, int Iterations, float Delay, int Remove, int Add, int heightVariance)
     {
         this.width = width;
         this.height = height;
@@ -18,5 +19,6 @@ public class GenerationOptions
         this.Delay = Delay;
         this.RemoveThreshold = Remove;
         this.AddThreshold = Add;
+        HeightVariance = heightVariance;
     }
 }

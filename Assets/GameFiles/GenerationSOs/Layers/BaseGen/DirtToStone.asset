@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: DirtToStone
   m_EditorClassIdentifier: Assembly-CSharp::TransitionLayer
   MinY: 0.7
-  MaxY: 0.75
+  MaxY: 0.82
+  SurfaceBased: 1
   FromLayer: {fileID: 11400000, guid: 42f01f5dfaeaecb4e9883d361d998659, type: 2}
   ToLayer: {fileID: 11400000, guid: d6f789cb92da562499b19de80d54bcc9, type: 2}

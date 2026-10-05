@@ -6,6 +6,7 @@ public abstract class GenerationLayerSO : ScriptableObject
 {
     [Range(0f, 1f)]
     public float MinY, MaxY;
+    public bool SurfaceBased = false;
     public virtual TileType GenerateTile() { return TileType.Air; }
     public virtual TileType GenerateTile(float NormalizedY) { return TileType.Air; }
     public virtual TileType GenerateTile(TileType current, int value) { return TileType.Air; }

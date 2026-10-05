@@ -411,7 +411,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &955053512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -435,6 +435,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c1df3b2736e2e26419a8b53d582b7790, type: 2}
   - {fileID: 11400000, guid: d6f789cb92da562499b19de80d54bcc9, type: 2}
   noiseLayers:
+  - {fileID: 11400000, guid: fb60f25379d4dc84dbf26e2e33780391, type: 2}
   - {fileID: 11400000, guid: 873b1f65b7e070b42bd0f413f485152b, type: 2}
   - {fileID: 11400000, guid: 70c143c6494d0a946a3d55d845f202cd, type: 2}
   oreLayers:
@@ -442,6 +443,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6b59822462a16454eaec33dc5222b9cd, type: 2}
   - {fileID: 11400000, guid: 8f4d5670c04312b4a844fdb14c3b6c9b, type: 2}
   - {fileID: 11400000, guid: bbec662bccc45d442889afe5cb36ee9e, type: 2}
+  Seed: 0
 --- !u!4 &955053513
 Transform:
   m_ObjectHideFlags: 0
@@ -528,7 +530,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1383196412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -559,6 +561,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cb228de9bd8752149869e5bcf7f052e7, type: 2}
   - {fileID: 11400000, guid: d6ea13e73dd2a8a43b439508dce4b49e, type: 2}
   - {fileID: 11400000, guid: 81b873f55312acc4e9946a0805fe822b, type: 2}
+  Seed: 0
 --- !u!4 &1383196413
 Transform:
   m_ObjectHideFlags: 0

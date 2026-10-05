@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74885715e287b654dbc2b5cc3759a083, type: 3}
   m_Name: CopperLayerSmall
   m_EditorClassIdentifier: Assembly-CSharp::OreLayer
-  MinY: 0.164
-  MaxY: 0.72
+  MinY: 0.327
+  MaxY: 0.812
+  SurfaceBased: 1
   TilesInLayer:
   - TileType: 6
     weight: 0
   NumberOfVeinGenerationAttempts: 18
   MinNumberOfVeins: 3
-  MinTilesPerVein: 35
-  MaxTilesPerVein: 40
+  MinTilesPerVein: 20
+  MaxTilesPerVein: 25
   MaxDistanceFromStart: 8

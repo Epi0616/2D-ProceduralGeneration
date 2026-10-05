@@ -9,4 +9,8 @@ public class GenerationOptionsSO : ScriptableObject
     public float Delay;
     public int RemoveThreshold, AddThreshold;
     public TileType initialTileType;
+    [Range(0, 1)]
+    public float SurfaceBaseHeight;
+    public float SurfaceScale;
+    public float SurfaceFrequency = 1;
 }

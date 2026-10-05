@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74885715e287b654dbc2b5cc3759a083, type: 3}
   m_Name: DirtScatterSmall
   m_EditorClassIdentifier: Assembly-CSharp::OreLayer
-  MinY: 0
-  MaxY: 0.4
+  MinY: 0.473
+  MaxY: 0.764
+  SurfaceBased: 1
   TilesInLayer:
   - TileType: 0
     weight: 0
   NumberOfVeinGenerationAttempts: 20
   MinNumberOfVeins: 3
-  MinTilesPerVein: 50
-  MaxTilesPerVein: 60
+  MinTilesPerVein: 30
+  MaxTilesPerVein: 50
   MaxDistanceFromStart: 60

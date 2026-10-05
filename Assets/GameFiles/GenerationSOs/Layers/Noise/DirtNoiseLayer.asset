@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8038563db02169e42b9835bd1323301c, type: 3}
   m_Name: DirtNoiseLayer
   m_EditorClassIdentifier: Assembly-CSharp::NoiseLayer
-  MinY: 0.7
-  MaxY: 0.85
+  MinY: 0.83
+  MaxY: 0.93
+  SurfaceBased: 1
   NoiseType: 2
-  NoiseDensity: 65
+  NoiseDensity: 60.4
   Iterations: 2

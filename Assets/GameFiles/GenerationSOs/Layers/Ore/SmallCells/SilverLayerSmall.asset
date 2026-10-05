@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74885715e287b654dbc2b5cc3759a083, type: 3}
   m_Name: SilverLayerSmall
   m_EditorClassIdentifier: Assembly-CSharp::OreLayer
-  MinY: 0
-  MaxY: 0.6
+  MinY: 0.115
+  MaxY: 0.691
+  SurfaceBased: 1
   TilesInLayer:
   - TileType: 5
     weight: 0
