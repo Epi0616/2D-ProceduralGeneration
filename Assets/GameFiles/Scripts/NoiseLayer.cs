@@ -8,7 +8,7 @@ public class NoiseLayer : GenerationLayerSO
     public float NoiseDensity;
     public int Iterations;
 
-    public void GenerateNoiseMap(int width, int height)
+    public virtual void GenerateNoiseMap(int width, int height)
     { 
         NoiseMap = new int[width, height];
 
@@ -29,7 +29,7 @@ public class NoiseLayer : GenerationLayerSO
         }
     }
 
-    public TileType ApplyNoise(TileType current, int value)
+    public virtual TileType ApplyNoise(TileType current, int value)
     {
         if (value == 1) return NoiseType;
         return current;
