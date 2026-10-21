@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "ScriptableObjects/PerlinNoiseLayer")]
 public class PerlinNoiseLayer : NoiseLayer
 {
-    public override void GenerateNoiseMap(int width, int height)
+    public override void GenerateNoiseMap(int width, int height, int seed)
     {
         NoiseMap = new int[width, height];
 
@@ -11,15 +11,9 @@ public class PerlinNoiseLayer : NoiseLayer
         {
             for (int y = 0; y < height; y++)
             {
-                int random = UnityEngine.Random.Range(0, 100);
-                if (random > NoiseDensity)
-                {
-                    NoiseMap[x, y] = 1;
-                }
-                else
-                {
-                    NoiseMap[x, y] = 0;
-                }
+                NoiseMap[x, y] = Mathf.RoundToInt(Mathf.PerlinNoise((x * NoiseDensity) + seed, (y * NoiseDensity) + seed));
+               // Debug.Log(Mathf.RoundToInt(Mathf.PerlinNoise((x * NoiseDensity) + seed, (y * NoiseDensity) + seed)));
+                //Debug.Log(Mathf.PerlinNoise((x * NoiseDensity) + seed, (y * NoiseDensity) + seed));
             }
         }
     }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
 public class World : MonoBehaviour
@@ -17,6 +18,8 @@ public class World : MonoBehaviour
     [SerializeField] private List<NoiseLayer> noiseLayers;
     [SerializeField] private List<OreLayer> oreLayers;
     private int[] surfaceHeight;
+
+    
 
     public int Seed;
     // World 0,0 is Bottom Left of the Grid
@@ -56,7 +59,7 @@ public class World : MonoBehaviour
         foreach (NoiseLayer layer in noiseLayers)
         {
             Debug.Log("Generating Noise Layer: " + layer.name);
-            layer.GenerateNoiseMap(generationOptions.width, generationOptions.height);
+            layer.GenerateNoiseMap(generationOptions.width, generationOptions.height, Seed);
             GenerateNoiseLayer(layer);
             for (int i = 0; i < layer.Iterations; i++)
             {
@@ -76,12 +79,17 @@ public class World : MonoBehaviour
         yield return new WaitForSeconds(generationOptions.Delay);
 
         Debug.Log("Growing Grass");
-        GrowGrass();
+        //GrowGrass();
 
         yield return new WaitForSeconds(generationOptions.Delay);
 
+        Debug.Log("Converting Tiles to Common Neighbour");
+        ConvertTilesToNeighbours();
+
         Debug.Log("Adjusting Isolated Tiles");
+        yield return new WaitForSeconds(generationOptions.Delay);
         AdjustIsolatedTiles();
+     
     }
 
 
@@ -405,9 +413,7 @@ public class World : MonoBehaviour
 
     private void IterateAutomata(int Add, int Remove, NoiseLayer layer)
     {
-        int minY = Mathf.RoundToInt(layer.MinY * generationOptions.height);
-        int maxY = Mathf.RoundToInt(layer.MaxY * generationOptions.height);
-
+        
         List<Vector2> ToBeRemoved = new List<Vector2>();
         List<Vector2> ToBeAdded = new List<Vector2>();
         List<TileType> options = new List<TileType>();
@@ -416,6 +422,18 @@ public class World : MonoBehaviour
 
         for (int x = 0; x < generationOptions.width; x++)
         {
+            int minY, maxY;
+            if (layer.SurfaceBased)
+            {
+                int surfaceY = surfaceHeight[x];
+                minY = Mathf.RoundToInt(layer.MinY * surfaceY);
+                maxY = Mathf.RoundToInt(layer.MaxY * surfaceY);
+            }
+            else
+            {
+                minY = Mathf.RoundToInt(layer.MinY * generationOptions.height);
+                maxY = Mathf.RoundToInt(layer.MaxY * generationOptions.height);
+            }
             for (int y = minY; y < maxY; y++)
             {
                 //Debug.Log("looping");
@@ -468,7 +486,7 @@ public class World : MonoBehaviour
                 if (ToBeRemoved.Contains(new Vector2(x, y)))
                 {
                     worldTiles[x, y].type = TileType.Air;
-                    worldVisuals[x, y].UpdateVisualFromTileData(TileDictionary.Instance.FetchTileDataByType(TileType.Air));
+                    worldVisuals[x, y].UpdateVisualFromTileData(TileDictionary.Instance.FetchTileDataByType(layer.NoiseType));
                     continue;
                 }
                 if (ToBeAdded.Contains(new Vector2(x, y)) && neighbourTypes[x, y] != null)
@@ -482,8 +500,7 @@ public class World : MonoBehaviour
 
     private void AdjustIsolatedTiles()
     {
-        List<Vector2> ToBeRemoved = new List<Vector2>();
-        List<Vector2> ToBeAdded = new List<Vector2>();
+        int adjusted = 0;
         List<Vector2> ToBeAdjusted = new List<Vector2>();
         TileType?[,] neighbourTypes = new TileType?[generationOptions.width, generationOptions.height];
 
@@ -491,9 +508,6 @@ public class World : MonoBehaviour
         {
             for (int y = 0; y < generationOptions.height; y++)
             {
-                //Debug.Log("looping");
-                bool allSame = true;
-                TileType? surroundingType = null;
                 int activeNeighbours = 0;
                 for (int offsetX = -1; offsetX <= 1; offsetX++)
                 {
@@ -509,12 +523,9 @@ public class World : MonoBehaviour
                         if (checkX < 0 || checkX >= generationOptions.width ||
                             checkY < 0 || checkY >= generationOptions.height)
                         {
-                            allSame = false;
                             activeNeighbours++;
                             break;
                         }
-
-
 
                         TileType neighbourType = worldTiles[checkX, checkY].type;
 
@@ -522,27 +533,12 @@ public class World : MonoBehaviour
                         {
                             activeNeighbours++;
                         }
-
-                        if (surroundingType == null)
-                        {
-                            surroundingType = neighbourType;
-                        }
-                        else if (neighbourType != surroundingType)
-                        {
-                            allSame = false;
-                            break;
-                        }
                     }
-                    if (!allSame) { break; }
+              
                 }
                 
-                if (allSame && surroundingType != null && TileDictionary.Instance.FetchTileDataByType(surroundingType.Value).isSolid)
-                {
-                    ToBeAdjusted.Add(new Vector2(x, y));
-                    neighbourTypes[x, y] = surroundingType;
-                }
-
-                if (activeNeighbours <= 0) { ToBeAdded.Add(new Vector2(x, y)); neighbourTypes[x, y] = TileType.Air; }
+                
+                if (activeNeighbours <= 0) { neighbourTypes[x, y] = TileType.Air; ToBeAdjusted.Add(new Vector2(x, y)); }
             }
         }
 
@@ -553,14 +549,73 @@ public class World : MonoBehaviour
                 if (ToBeAdjusted.Contains(new Vector2(x, y)) && neighbourTypes[x, y] != null)
                 {
                     //Debug.Log("Adjusted Tile: " + x + ", " + y);
+                    adjusted++;
                     worldTiles[x, y].type = neighbourTypes[x, y].Value;
                     worldVisuals[x, y].UpdateVisualFromTileData(TileDictionary.Instance.FetchTileDataByType(neighbourTypes[x, y].Value));
                 }               
             }
         }
+
+        Debug.Log("Adjusted by AdjustIsolated: " + adjusted);
     }
     // TBC If no tiles in the neighbourhood share a type set the tile to the most common neighbour
-   // private void AdjustIsolatedTilesV2() { }
+    private void ConvertTilesToNeighbours() 
+    {
+        List<Vector2> ToBeAdjusted = new List<Vector2>();
+        NeighbourhoodTypes[,] neighbourTypes = new NeighbourhoodTypes[generationOptions.width, generationOptions.height];
+        int adjusted = 0;
+        for (int x = 0; x < generationOptions.width; x++)
+        {
+            for (int y = 0; y < generationOptions.height; y++)
+            {
+                
+                List<Vector2Int> neighbours = FetchNeighboursCompass(new Vector2Int(x, y));
+                neighbourTypes[x, y].types = new TileType[neighbours.Count];
+                for (int i = 0; i < neighbours.Count; i++)
+                {
+                    if (neighbours[i].x < 0 || neighbours[i].x >= generationOptions.width ||
+                            neighbours[i].y < 0 || neighbours[i].y >= generationOptions.height)
+                    {
+                        continue;
+                    }
+                    if (TileDictionary.Instance.FetchTileDataByType(worldTiles[neighbours[i].x, neighbours[i].y].type).isSolid)
+                    {
+                    }
+
+                    neighbourTypes[x, y].types[i] = worldTiles[neighbours[i].x, neighbours[i].y].type;
+                }
+                neighbourTypes[x, y].mostCommonType = DetermineMostCommonType(neighbourTypes[x, y].types, out neighbourTypes[x, y].allSame);
+
+                if (worldTiles[x, y].type != neighbourTypes[x, y].mostCommonType && TileDictionary.Instance.FetchTileDataByType(worldTiles[x, y].type).canConvert)
+                {
+                    adjusted++;
+                    worldTiles[x, y].type = neighbourTypes[x, y].mostCommonType;
+                    worldVisuals[x, y].UpdateVisualFromTileData(TileDictionary.Instance.FetchTileDataByType(neighbourTypes[x, y].mostCommonType));
+                }
+            }
+        }
+        if (ToBeAdjusted.Count > 0)
+        {
+            for (int x = 0; x < generationOptions.width; x++)
+            {
+                for (int y = 0; y < generationOptions.height; y++)
+                {
+                    if (ToBeAdjusted.Contains(new Vector2(x, y)))
+                    {
+                        //Debug.Log("Adjusted Tile: " + x + ", " + y);
+                        worldTiles[x, y].type = neighbourTypes[x, y].mostCommonType;
+                        worldVisuals[x, y].UpdateVisualFromTileData(TileDictionary.Instance.FetchTileDataByType(neighbourTypes[x, y].mostCommonType));
+                    }
+                }
+            }
+        }
+        Debug.Log("Adjusted by ConvertToNeighbour: " + adjusted);
+    }
+    // Check Neighbours
+    // Tally Active Neighbours to remove floating pixels in air
+    // Determine the most common type in each neighbourhood
+    // Determine if all tiles are the same type
+    // If the selected tile is not the most common one change it
 
     private void GrowGrass()
     {
@@ -597,5 +652,39 @@ public class World : MonoBehaviour
     private float NormalisedY(int y) // Used for transition layers to work out how far between two layers a chosen tile is
     {
         return (float)y / (generationOptions.height - 1);
+    }
+
+    private TileType DetermineMostCommonType(TileType[] types, out bool same)
+    {
+        Dictionary<TileType, int> counts = new Dictionary<TileType, int>();
+        TileType? mostCommon = null;
+        int currentMax = 0;
+        same = false;
+        foreach (TileType type in types)
+        {
+            counts.TryGetValue(type, out int count);
+            count++;
+            counts[type] = count;
+
+            if (count > currentMax)
+            {
+                mostCommon = type;
+                currentMax = count;
+            }
+        }
+
+        if (mostCommon == null)
+        {
+            mostCommon = TileType.Debug;
+        }
+        if (counts.Count == 1) { same = true; }
+        return mostCommon.Value;
+    }
+
+    struct NeighbourhoodTypes
+    {
+        public TileType[] types;
+        public TileType mostCommonType;
+        public bool allSame;
     }
 }

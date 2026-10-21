@@ -8,7 +8,7 @@ public class NoiseLayer : GenerationLayerSO
     public float NoiseDensity;
     public int Iterations;
 
-    public virtual void GenerateNoiseMap(int width, int height)
+    public virtual void GenerateNoiseMap(int width, int height, int seed)
     { 
         NoiseMap = new int[width, height];
 
