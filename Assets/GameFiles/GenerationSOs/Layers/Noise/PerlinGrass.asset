@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9a1734ad2e127f40b6e0d254c48cf4d, type: 3}
   m_Name: PerlinGrass
   m_EditorClassIdentifier: Assembly-CSharp::PerlinNoiseLayer
-  MinY: 0
-  MaxY: 0
-  SurfaceBased: 0
-  NoiseType: 0
-  NoiseDensity: 0
-  Iterations: 0
+  MinY: 0.836
+  MaxY: 1
+  SurfaceBased: 1
+  NoiseType: 2
+  NoiseDensity: 0.25
+  Iterations: 2
