@@ -18,6 +18,18 @@ public class TransitionLayer : GenerationLayerSO
         }
         return ToLayer.GenerateTile(NormalizedY);
     }
+
+    public override TileType GenerateWallTile(float NormalizedY)
+    {
+        float t = Mathf.InverseLerp(MinY, MaxY, NormalizedY);
+        t = Mathf.SmoothStep(0f, 1f, t);
+
+        if (Random.value < t)
+        {
+            return FromLayer.GenerateWallTile(NormalizedY);
+        }
+        return ToLayer.GenerateWallTile(NormalizedY);
+    }
 }
 
 // The further through the min/max range the higher t is

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7640ac97565d7147abea13c91cea3c1, type: 3}
   m_Name: DebugTile
   m_EditorClassIdentifier: Assembly-CSharp::TileDataSO
-  type: 8
+  type: 9
   tileColour: {r: 1, g: 0, b: 0.74655247, a: 1}
   tileSprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   isSolid: 0

@@ -10,4 +10,5 @@ public abstract class GenerationLayerSO : ScriptableObject
     public virtual TileType GenerateTile() { return TileType.Air; }
     public virtual TileType GenerateTile(float NormalizedY) { return TileType.Air; }
     public virtual TileType GenerateTile(TileType current, int value) { return TileType.Air; }
+    public virtual TileType GenerateWallTile(float NormalizedY) { return TileType.Air; }
 }

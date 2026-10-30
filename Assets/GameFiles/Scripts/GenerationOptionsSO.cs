@@ -13,4 +13,5 @@ public class GenerationOptionsSO : ScriptableObject
     public float SurfaceBaseHeight;
     public float SurfaceScale;
     public float SurfaceFrequency = 1;
+    public bool UsesWalls = false;
 }

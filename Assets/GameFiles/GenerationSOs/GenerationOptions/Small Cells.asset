@@ -22,3 +22,4 @@ MonoBehaviour:
   SurfaceBaseHeight: 0.6
   SurfaceScale: 25
   SurfaceFrequency: 5
+  UsesWalls: 1

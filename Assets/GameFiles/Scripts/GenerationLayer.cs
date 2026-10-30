@@ -5,11 +5,15 @@ using UnityEngine;
 public class GenerationLayer : GenerationLayerSO
 {
     public List<TileGenerationData> TilesInLayer;
+    public TileType WallTile;
     public override TileType GenerateTile(float NormalizedY)
     {
         return SelectRandomTile();
     }
-
+    public override TileType GenerateWallTile(float NormalizedY)
+    {
+        return WallTile;
+    }
     private TileType SelectRandomTile()
     {
         // Add all weightings

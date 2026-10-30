@@ -59,7 +59,14 @@ public class World : MonoBehaviour
         foreach (NoiseLayer layer in noiseLayers)
         {
             Debug.Log("Generating Noise Layer: " + layer.name);
-            layer.GenerateNoiseMap(generationOptions.width, generationOptions.height, Seed);
+            if (layer.Layered)
+            {
+                layer.GenerateLayeredNoiseMap(generationOptions.width, generationOptions.height, Seed);
+            }
+            else
+            {
+                layer.GenerateNoiseMap(generationOptions.width, generationOptions.height, Seed);
+            }            
             GenerateNoiseLayer(layer);
             for (int i = 0; i < layer.Iterations; i++)
             {
@@ -89,7 +96,9 @@ public class World : MonoBehaviour
         Debug.Log("Adjusting Isolated Tiles");
         yield return new WaitForSeconds(generationOptions.Delay);
         AdjustIsolatedTiles();
-     
+
+        yield return new WaitForSeconds(generationOptions.Delay);
+        if (generationOptions.UsesWalls) { PlaceWalls(); }
     }
 
 
@@ -679,6 +688,41 @@ public class World : MonoBehaviour
         }
         if (counts.Count == 1) { same = true; }
         return mostCommon.Value;
+    }
+
+    private void PlaceWalls()
+    {
+        foreach (GenerationLayerSO layer in baseLayers)
+        {
+            for (int x = 0; x < generationOptions.width; x++)
+            {
+                int minY, maxY;
+                if (layer.SurfaceBased)
+                {
+                    int surfaceY = surfaceHeight[x];
+                    minY = Mathf.RoundToInt(layer.MinY * surfaceY);
+                    maxY = Mathf.RoundToInt(layer.MaxY * surfaceY);
+                }
+                else
+                {
+                    minY = Mathf.RoundToInt(layer.MinY * generationOptions.height);
+                    maxY = Mathf.RoundToInt(layer.MaxY * generationOptions.height);
+                }
+
+                for (int y = minY; y < maxY; y++)
+                {
+                    if (!TileDictionary.Instance.FetchTileDataByType(worldTiles[x, y].type).isSolid)
+                    {
+                        Debug.Log("Placeing Wall");
+                        TileType newType = layer.GenerateWallTile(NormalisedY(y));
+                        worldTiles[x, y].type = newType;
+                        worldVisuals[x, y].UpdateVisualFromTileData(TileDictionary.Instance.FetchTileDataByType(newType));
+                    }
+
+                    
+                }
+            }
+        }
     }
 
     struct NeighbourhoodTypes

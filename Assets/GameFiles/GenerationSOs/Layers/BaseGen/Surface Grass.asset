@@ -18,3 +18,4 @@ MonoBehaviour:
   TilesInLayer:
   - TileType: 3
     weight: 0
+  WallTile: 2

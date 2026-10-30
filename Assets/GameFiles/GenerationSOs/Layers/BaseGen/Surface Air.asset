@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GenerationLayer
   MinY: 0.93
   MaxY: 1
+  SurfaceBased: 0
   TilesInLayer:
   - TileType: 2
     weight: 0
+  WallTile: 2

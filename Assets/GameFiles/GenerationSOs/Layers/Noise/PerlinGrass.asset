@@ -18,3 +18,5 @@ MonoBehaviour:
   NoiseType: 2
   NoiseDensity: 0.25
   Iterations: 2
+  Layered: 0
+  layers: []

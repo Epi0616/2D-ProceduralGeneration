@@ -1,5 +1,8 @@
 using System;
 
+
+// NOT MINE
+// SOURCED FROM: https://github.com/WardBenjamin/SimplexNoise/blob/master/SimplexNoise/Noise.cs
 namespace SimplexNoise
 {
     /// <summary>
