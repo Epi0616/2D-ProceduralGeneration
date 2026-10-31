@@ -3,6 +3,7 @@ using UnityEngine;
 public class Tile 
 {
     public TileType type;
+    public bool isSkyConnected;
     public Vector2Int GridPos;
     public Vector2 WorldPos;
 

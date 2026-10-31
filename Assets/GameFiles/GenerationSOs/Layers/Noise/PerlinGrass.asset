@@ -17,6 +17,10 @@ MonoBehaviour:
   SurfaceBased: 1
   NoiseType: 2
   NoiseDensity: 0.25
-  Iterations: 2
-  Layered: 0
-  layers: []
+  Iterations: 4
+  Layered: 1
+  layers:
+  - frequency: 1.74
+    amplitude: 1.81
+  - frequency: 2.71
+    amplitude: 2.2

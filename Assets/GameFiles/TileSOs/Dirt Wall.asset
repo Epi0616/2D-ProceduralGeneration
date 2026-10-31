@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: Dirt Wall
   m_EditorClassIdentifier: Assembly-CSharp::TileDataSO
   type: 8
-  tileColour: {r: 0.49056602, g: 0.42052463, b: 0.40032038, a: 1}
+  tileColour: {r: 0.31764707, g: 0.28235295, b: 0.24705882, a: 1}
   tileSprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   isSolid: 0
   canConvert: 1
-  minDepth: 0
-  maxDepth: 0
+  isWall: 1

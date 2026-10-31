@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+
 using Random = UnityEngine.Random;
 
 public class World : MonoBehaviour
@@ -83,22 +84,23 @@ public class World : MonoBehaviour
             ManageOreGenerationForLayer(layer);
             yield return new WaitForSeconds(generationOptions.Delay);
         }
-        yield return new WaitForSeconds(generationOptions.Delay);
 
-        Debug.Log("Growing Grass");
-        //GrowGrass();
+        //yield return new WaitForSeconds(generationOptions.Delay);
+        //if (generationOptions.UsesWalls) { PlaceWalls(); }
 
         yield return new WaitForSeconds(generationOptions.Delay);
 
         Debug.Log("Converting Tiles to Common Neighbour");
         ConvertTilesToNeighbours();
+        yield return new WaitForSeconds(generationOptions.Delay);
+        ConvertTilesToNeighbours();        
 
         Debug.Log("Adjusting Isolated Tiles");
         yield return new WaitForSeconds(generationOptions.Delay);
         AdjustIsolatedTiles();
 
         yield return new WaitForSeconds(generationOptions.Delay);
-        if (generationOptions.UsesWalls) { PlaceWalls(); }
+        if (generationOptions.UsesWalls) { PlaceWallsBasedOnSky(); }
     }
 
 
@@ -252,11 +254,20 @@ public class World : MonoBehaviour
 
     private bool isPositionSolid(Vector2Int pos)
     {
+        if (isPositionValid(pos))
+        {
+            return (TileDictionary.Instance.FetchTileDataByType(worldTiles[pos.x, pos.y].type).isSolid);
+        }
+        return false;
+    }
+
+    private bool isPositionValid(Vector2Int pos)
+    {
         if (pos.x < 0 || pos.x >= generationOptions.width || pos.y < 0 || pos.y >= generationOptions.height)
         {
             return false;
         }
-        return (TileDictionary.Instance.FetchTileDataByType(worldTiles[pos.x, pos.y].type).isSolid);
+        return true;
     }
 
     private void GenerateOreLayerFrontier(OreLayer layer, Vector2Int startPos)
@@ -547,7 +558,7 @@ public class World : MonoBehaviour
                 }
                 
                 
-                if (activeNeighbours <= 0) { neighbourTypes[x, y] = TileType.Air; ToBeAdjusted.Add(new Vector2(x, y)); }
+                if (activeNeighbours <= 0 && !TileDictionary.Instance.FetchTileDataByType(worldTiles[x, y].type).isWall) { neighbourTypes[x, y] = TileType.Air; ToBeAdjusted.Add(new Vector2(x, y)); }
             }
         }
 
@@ -589,8 +600,8 @@ public class World : MonoBehaviour
                     }
                     if (TileDictionary.Instance.FetchTileDataByType(worldTiles[neighbours[i].x, neighbours[i].y].type).isSolid)
                     {
+                        
                     }
-
                     neighbourTypes[x, y].types[i] = worldTiles[neighbours[i].x, neighbours[i].y].type;
                 }
                 neighbourTypes[x, y].mostCommonType = DetermineMostCommonType(neighbourTypes[x, y].types, out neighbourTypes[x, y].allSame);
@@ -625,26 +636,6 @@ public class World : MonoBehaviour
     // Determine the most common type in each neighbourhood
     // Determine if all tiles are the same type
     // If the selected tile is not the most common one change it
-
-    private void GrowGrass()
-    {
-        for (int x = 0; x < generationOptions.width; x++)
-        {
-            for (int y = 0; y < generationOptions.height; y++)
-            {
-                if (CanTileSeeSun(new Vector2Int(x, y)) && worldTiles[x, y].type == TileType.Dirt && !isPositionSolid(new Vector2Int(x, y + 1)))
-                {
-                    worldTiles[x, y].type = TileType.Grass;
-                    worldVisuals[x, y].UpdateVisualFromTileData(TileDictionary.Instance.FetchTileDataByType(TileType.Grass));
-                    if (isPositionSolid(new Vector2Int(x, y - 1)))
-                    {
-                        worldTiles[x, y - 1].type = TileType.Grass;
-                        worldVisuals[x, y - 1].UpdateVisualFromTileData(TileDictionary.Instance.FetchTileDataByType(TileType.Grass));
-                    }
-                }   
-            }
-        }                  
-    }
 
     private bool CanTileSeeSun(Vector2Int tile)
     {
@@ -711,9 +702,11 @@ public class World : MonoBehaviour
 
                 for (int y = minY; y < maxY; y++)
                 {
-                    if (!TileDictionary.Instance.FetchTileDataByType(worldTiles[x, y].type).isSolid)
+                    if (!TileDictionary.Instance.FetchTileDataByType(worldTiles[x, y].type).isSolid
+                        && DoesTileHaveSolidTileInColumnAbove(new Vector2Int(x, y), 150) 
+                        && !DoesTileHaveTargetTileInColumAbove(new Vector2Int(x, y), TileType.Grass, 15))
                     {
-                        Debug.Log("Placeing Wall");
+                        Debug.Log("Placing Wall");
                         TileType newType = layer.GenerateWallTile(NormalisedY(y));
                         worldTiles[x, y].type = newType;
                         worldVisuals[x, y].UpdateVisualFromTileData(TileDictionary.Instance.FetchTileDataByType(newType));
@@ -723,6 +716,133 @@ public class World : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void PlaceWallsBasedOnSky()
+    {
+        DetermineSkyConnectivity();
+
+        foreach (GenerationLayerSO layer in baseLayers)
+        {
+            for (int x = 0; x < generationOptions.width; x++)
+            {
+                int minY, maxY;
+                if (layer.SurfaceBased)
+                {
+                    int surfaceY = surfaceHeight[x];
+                    minY = Mathf.RoundToInt(layer.MinY * surfaceY);
+                    maxY = Mathf.RoundToInt(layer.MaxY * surfaceY);
+                }
+                else
+                {
+                    minY = Mathf.RoundToInt(layer.MinY * generationOptions.height);
+                    maxY = Mathf.RoundToInt(layer.MaxY * generationOptions.height);
+                }
+
+                for (int y = minY; y < maxY; y++)
+                {
+                    if (isPositionSolid(new Vector2Int(x, y))) { continue; }
+                    
+                    if (!worldTiles[x, y].isSkyConnected)
+                    {
+                        TileType newType = layer.GenerateWallTile(NormalisedY(y));
+                        worldTiles[x, y].type = newType;
+                        worldVisuals[x, y].UpdateVisualFromTileData(TileDictionary.Instance.FetchTileDataByType(newType));
+                    }
+                }
+            }
+        }
+    }
+
+    private void DetermineSkyConnectivity()
+    {
+        int[,] fillDirections = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+
+
+        Queue<Vector2Int> floodFillQueue = new Queue<Vector2Int>();
+        
+        for (int x = 0; x < generationOptions.width; x++)
+        {
+            if (!isPositionSolid(new Vector2Int(x, generationOptions.height - 1)))
+            {
+                worldTiles[x, generationOptions.height - 1].isSkyConnected = true;
+                floodFillQueue.Enqueue(new Vector2Int(x, generationOptions.height - 1));
+            }
+        }
+
+        while (floodFillQueue.Count > 0)
+        {
+            Vector2Int current = floodFillQueue.Dequeue();
+
+            for (int i = 0; i < 4; i++)
+            {
+                int nextX = current.x + fillDirections[i, 0];
+                int nextY = current.y + fillDirections[i, 1];
+
+                if (isPositionSolid(new Vector2Int(nextX, nextY))) { continue; }
+
+                if (!isPositionValid(new Vector2Int(nextX, nextY))) { continue; }
+
+                if (worldTiles[nextX, nextY].isSkyConnected) { continue; }
+
+                worldTiles[nextX, nextY].isSkyConnected = true;
+                floodFillQueue.Enqueue(new Vector2Int(nextX, nextY));
+            }
+        }
+    }
+
+    private bool DoesTileHaveSolidTileInColumnAbove(Vector2Int pos)
+    {
+        for (int y = pos.y; y < generationOptions.height; y++)
+        {
+            if (isPositionSolid(new Vector2Int(pos.x, y)))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private bool DoesTileHaveSolidTileInColumnAbove(Vector2Int pos, int checkLength)
+    {
+        for (int y = pos.y; y < pos.y + checkLength; y++)
+        {
+            if (isPositionSolid(new Vector2Int(pos.x, y)))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private bool DoesTileHaveTargetTileInColumAbove(Vector2Int pos, TileType target)
+    {
+        for (int y = pos.y; y < generationOptions.height; y++)
+        {
+            if (worldTiles[pos.x, y].type == target)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    private bool DoesTileHaveTargetTileInColumAbove(Vector2Int pos, TileType target, int checkLength)
+    {
+        for (int y = pos.y; y < pos.y + checkLength; y++)
+        {
+            if (isPositionSolid(new Vector2Int(pos.x, y)))
+            {
+                if (worldTiles[pos.x, y].type == target)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        return false;
     }
 
     struct NeighbourhoodTypes

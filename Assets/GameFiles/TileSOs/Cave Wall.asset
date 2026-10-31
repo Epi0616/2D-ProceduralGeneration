@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: Cave Wall
   m_EditorClassIdentifier: Assembly-CSharp::TileDataSO
   type: 7
-  tileColour: {r: 0.41509432, g: 0.41509432, b: 0.41509432, a: 0.49411765}
+  tileColour: {r: 0.27058825, g: 0.3019608, b: 0.33333334, a: 0.70980394}
   tileSprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   isSolid: 0
   canConvert: 1
-  minDepth: 0
-  maxDepth: 0
+  isWall: 1

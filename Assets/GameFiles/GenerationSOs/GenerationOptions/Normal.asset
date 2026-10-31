@@ -21,3 +21,5 @@ MonoBehaviour:
   initialTileType: 2
   SurfaceBaseHeight: 0.9
   SurfaceScale: 5
+  SurfaceFrequency: 1
+  UsesWalls: 1

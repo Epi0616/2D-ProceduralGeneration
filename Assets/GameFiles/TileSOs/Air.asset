@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: Air
   m_EditorClassIdentifier: Assembly-CSharp::TileDataSO
   type: 2
-  tileColour: {r: 0.45349768, g: 0.7244411, b: 0.745283, a: 1}
+  tileColour: {r: 0.4392157, g: 0.6627451, b: 0.84705883, a: 1}
   tileSprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   isSolid: 0
   canConvert: 1
-  minDepth: 0
-  maxDepth: 0
+  isWall: 0

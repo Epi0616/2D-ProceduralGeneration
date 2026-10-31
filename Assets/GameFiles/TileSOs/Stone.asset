@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: Stone
   m_EditorClassIdentifier: Assembly-CSharp::TileDataSO
   type: 1
-  tileColour: {r: 0.13207549, g: 0.11774655, b: 0.11774655, a: 1}
+  tileColour: {r: 0.52156866, g: 0.54509807, b: 0.5686275, a: 1}
   tileSprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   isSolid: 1
   canConvert: 1
-  minDepth: 0
-  maxDepth: 0
+  isWall: 0

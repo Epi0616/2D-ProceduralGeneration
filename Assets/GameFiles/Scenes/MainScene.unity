@@ -255,7 +255,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 0.14509805, g: 0.18039216, b: 0.21960784, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -552,9 +552,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c1df3b2736e2e26419a8b53d582b7790, type: 2}
   - {fileID: 11400000, guid: d6f789cb92da562499b19de80d54bcc9, type: 2}
   noiseLayers:
-  - {fileID: 11400000, guid: 50f501b4680a83d409f5b5bfcd2c2701, type: 2}
   - {fileID: 11400000, guid: 873b1f65b7e070b42bd0f413f485152b, type: 2}
-  - {fileID: 11400000, guid: 70c143c6494d0a946a3d55d845f202cd, type: 2}
+  - {fileID: 11400000, guid: dc84155718def1042a52e5cff3c31fd5, type: 2}
   oreLayers:
   - {fileID: 11400000, guid: 76cf7712d0b4cf34da0896ae94cc1cb5, type: 2}
   - {fileID: 11400000, guid: cb228de9bd8752149869e5bcf7f052e7, type: 2}
@@ -671,6 +670,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ec6e8db9407bdcc4f86d3c467b6d139d, type: 2}
   - {fileID: 11400000, guid: 6a40095e71eaf5f48816f30be0dcb23e, type: 2}
   - {fileID: 11400000, guid: ca237698b3a71e240a6899ab987659d2, type: 2}
+  - {fileID: 11400000, guid: c2f2fd451da39b041b323a1b3ea5482c, type: 2}
 --- !u!4 &1891229104
 Transform:
   m_ObjectHideFlags: 0

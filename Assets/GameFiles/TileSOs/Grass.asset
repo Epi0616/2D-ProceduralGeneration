@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Grass
   m_EditorClassIdentifier: Assembly-CSharp::TileDataSO
   type: 3
-  tileColour: {r: 0.11053756, g: 0.8679245, b: 0.27319783, a: 1}
+  tileColour: {r: 0.3764706, g: 0.5803922, b: 0.2784314, a: 1}
   tileSprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   isSolid: 1
-  minDepth: 0
-  maxDepth: 0
+  canConvert: 0
+  isWall: 0

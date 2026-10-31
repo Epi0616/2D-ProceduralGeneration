@@ -22,5 +22,5 @@ MonoBehaviour:
   layers:
   - frequency: 3
     amplitude: 5
-  - frequency: 16
+  - frequency: 10.5
     amplitude: 30

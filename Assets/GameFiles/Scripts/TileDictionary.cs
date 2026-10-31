@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum TileType { Dirt, Stone, Air, Grass, Gold, Silver, Copper, CaveWall, DirtWall, Debug }
+public enum TileType { Dirt, Stone, Air, Grass, Gold, Silver, Copper, CaveWall, DirtWall, Debug, GrassWall }
 
 public class TileDictionary : MonoBehaviour
 {
