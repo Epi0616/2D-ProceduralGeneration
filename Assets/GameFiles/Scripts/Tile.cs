@@ -4,6 +4,7 @@ public class Tile
 {
     public TileType type;
     public bool isSkyConnected;
+    public bool isAirExposed;
     public Vector2Int GridPos;
     public Vector2 WorldPos;
 

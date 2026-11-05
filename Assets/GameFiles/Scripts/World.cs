@@ -28,7 +28,12 @@ public class World : MonoBehaviour
 
     private void Start()
     {
-        Seed = Random.Range(0, 1000);
+        if (Seed == 0)
+        {
+            Seed = Random.Range(0, 1000);
+        }
+
+        
         // Set the Start Point for generation accounting for cellsize
         startPoint = startPosition.transform.position;
         startPoint.x += generationOptions.cellSize / 2;
@@ -99,8 +104,12 @@ public class World : MonoBehaviour
         yield return new WaitForSeconds(generationOptions.Delay);
         AdjustIsolatedTiles();
 
+        DetermineSkyConnectivity();
+
         yield return new WaitForSeconds(generationOptions.Delay);
         if (generationOptions.UsesWalls) { PlaceWallsBasedOnSky(); }
+
+        GrowGrass();
     }
 
 
@@ -720,7 +729,7 @@ public class World : MonoBehaviour
 
     private void PlaceWallsBasedOnSky()
     {
-        DetermineSkyConnectivity();
+        
 
         foreach (GenerationLayerSO layer in baseLayers)
         {
@@ -786,6 +795,11 @@ public class World : MonoBehaviour
                 if (worldTiles[nextX, nextY].isSkyConnected) { continue; }
 
                 worldTiles[nextX, nextY].isSkyConnected = true;
+                foreach (Vector2Int pos in FetchNeighboursCardinal(new Vector2Int(nextX, nextY)))
+                {
+                    if (!isPositionValid(pos)) { continue; }
+                    worldTiles[pos.x, pos.y].isAirExposed = true;
+                }
                 floodFillQueue.Enqueue(new Vector2Int(nextX, nextY));
             }
         }
@@ -843,6 +857,40 @@ public class World : MonoBehaviour
             }
         }
         return false;
+    }
+
+    private void GrowGrass()
+    {
+        for (int x = 0; x < generationOptions.width; x++)
+        {
+            for (int y = 0; y < generationOptions.height; y++)
+            {
+                if (worldTiles[x, y].isAirExposed && worldTiles[x, y].type == TileType.Dirt)
+                {
+                    if (!isPositionSolid(new Vector2Int(x, y + 1)) || !isPositionSolid(new Vector2Int(x + 1, y)) || !isPositionSolid(new Vector2Int(x - 1, y)))
+                    {
+                        worldTiles[x, y].type = TileType.Grass;
+                        worldVisuals[x, y].UpdateVisualFromTileData(TileDictionary.Instance.FetchTileDataByType(TileType.Grass));
+                        continue;
+                    }
+
+
+                    if (isPositionValid(new Vector2Int(x, y - 1)) && isPositionValid(new Vector2Int(x, y - 2)))
+                    {
+                        if (!isPositionSolid(new Vector2Int(x, y - 1)))
+                        {
+                            continue;
+                        }
+                        if (!isPositionSolid(new Vector2Int(x, y - 2)))
+                        {
+                            continue;
+                        }
+                    }
+                    worldTiles[x, y].type = TileType.Grass;
+                    worldVisuals[x, y].UpdateVisualFromTileData(TileDictionary.Instance.FetchTileDataByType(TileType.Grass));
+                }
+            }
+        }
     }
 
     struct NeighbourhoodTypes

@@ -16,6 +16,6 @@ MonoBehaviour:
   MaxY: 1
   SurfaceBased: 1
   TilesInLayer:
-  - TileType: 3
+  - TileType: 0
     weight: 0
-  WallTile: 2
+  WallTile: 8
