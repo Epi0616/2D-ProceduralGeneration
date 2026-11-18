@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: UnderGround
   m_EditorClassIdentifier: Assembly-CSharp::GenerationLayer
   MinY: 0
-  MaxY: 0.7
+  MaxY: 0.201
   SurfaceBased: 1
   TilesInLayer:
   - TileType: 1

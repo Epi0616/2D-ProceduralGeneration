@@ -436,11 +436,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d6f789cb92da562499b19de80d54bcc9, type: 2}
   noiseLayers:
   - {fileID: 11400000, guid: 50f501b4680a83d409f5b5bfcd2c2701, type: 2}
-  - {fileID: 11400000, guid: 6f12f7b97da60624f83aa018456d7e3b, type: 2}
+  - {fileID: 11400000, guid: dc84155718def1042a52e5cff3c31fd5, type: 2}
   oreLayers:
   - {fileID: 11400000, guid: 6b59822462a16454eaec33dc5222b9cd, type: 2}
   - {fileID: 11400000, guid: 8f4d5670c04312b4a844fdb14c3b6c9b, type: 2}
   - {fileID: 11400000, guid: bbec662bccc45d442889afe5cb36ee9e, type: 2}
+  repeatIterations: 10
+  SeedDeterminesHeight: 1
   Seed: 0
 --- !u!4 &955053513
 Transform:
@@ -559,6 +561,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cb228de9bd8752149869e5bcf7f052e7, type: 2}
   - {fileID: 11400000, guid: d6ea13e73dd2a8a43b439508dce4b49e, type: 2}
   - {fileID: 11400000, guid: 81b873f55312acc4e9946a0805fe822b, type: 2}
+  repeatIterations: 0
+  SeedDeterminesHeight: 0
   Seed: 0
 --- !u!4 &1383196413
 Transform:

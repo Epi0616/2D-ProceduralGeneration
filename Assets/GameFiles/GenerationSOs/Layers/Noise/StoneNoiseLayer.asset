@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StoneNoiseLayer
   m_EditorClassIdentifier: Assembly-CSharp::NoiseLayer
   MinY: 0
-  MaxY: 0.83
+  MaxY: 0.819
   SurfaceBased: 1
   NoiseType: 2
   NoiseDensity: 55

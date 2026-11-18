@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FakePerlinStone
   m_EditorClassIdentifier: Assembly-CSharp::PerlinNoiseLayer
   MinY: 0
-  MaxY: 0.83
+  MaxY: 0.79
   SurfaceBased: 1
   NoiseType: 2
   NoiseDensity: 0.06

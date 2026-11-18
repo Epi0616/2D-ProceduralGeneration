@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c2b015de9d34b4584b17c72c433d20, type: 3}
   m_Name: Dirt
   m_EditorClassIdentifier: Assembly-CSharp::GenerationLayer
-  MinY: 0.82
+  MinY: 0.86
   MaxY: 0.87
   SurfaceBased: 1
   TilesInLayer:

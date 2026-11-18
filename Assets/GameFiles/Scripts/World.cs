@@ -104,7 +104,7 @@ public class World : MonoBehaviour
         Debug.Log("Converting Tiles to Common Neighbour");
         ConvertTilesToNeighbours();
         yield return new WaitForSeconds(generationOptions.Delay);
-        ConvertTilesToNeighbours();        
+       // ConvertTilesToNeighbours();        
 
         // Remove Stray Tiles
         Debug.Log("Adjusting Isolated Tiles");
@@ -656,7 +656,11 @@ public class World : MonoBehaviour
         return (float)y / (generationOptions.height - 1);
     }
 
-    
+    private float NormalisedY(int x, int y)
+    {
+        return (float)y / surfaceHeight[x];
+    } 
+
     private TileType DetermineMostCommonType(TileType[] types, out bool same)
     {
         // Setup a dictionary to store the type and number of times it appears
@@ -712,7 +716,7 @@ public class World : MonoBehaviour
                     if (isPositionSolid(new Vector2Int(x, y))) { continue; }
                     
                     // If the tile isn't solid and isn't connected to the sky, convert it to a wall
-                    if (!worldTiles[x, y].isSkyConnected)
+                    if (!worldTiles[x, y].isSkyConnected || NormalisedY(x, y) < 0.82f)
                     {
                         TileType newType = layer.GenerateWallTile(NormalisedY(y));
                         worldTiles[x, y].type = newType;
@@ -774,7 +778,7 @@ public class World : MonoBehaviour
             for (int y = 0; y < generationOptions.height; y++)
             {
                 // If the tile is airexposed and Dirt, it can grow grass
-                if (worldTiles[x, y].isAirExposed && worldTiles[x, y].type == TileType.Dirt)
+                if (worldTiles[x, y].isAirExposed && worldTiles[x, y].type == TileType.Dirt && NormalisedY(x, y) > 0.82f)
                 {
                     // If there is any air left, right or above the tile, grow grass immediately and skip the rest of the loop
                     if (!isPositionSolid(new Vector2Int(x, y + 1)) || !isPositionSolid(new Vector2Int(x + 1, y)) || !isPositionSolid(new Vector2Int(x - 1, y)))
