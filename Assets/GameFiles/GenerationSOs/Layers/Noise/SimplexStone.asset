@@ -16,11 +16,15 @@ MonoBehaviour:
   MaxY: 0.83
   SurfaceBased: 1
   NoiseType: 2
-  NoiseDensity: 0.1
+  NoiseDensity: 1
   Iterations: 4
   Layered: 1
   layers:
   - frequency: 5
     amplitude: 15
   - frequency: 2
+    amplitude: 6
+  - frequency: 2.2
+    amplitude: 6
+  - frequency: 1.48
     amplitude: 6

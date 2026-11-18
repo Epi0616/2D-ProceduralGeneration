@@ -16,5 +16,7 @@ MonoBehaviour:
   MaxY: 0.83
   SurfaceBased: 1
   NoiseType: 2
-  NoiseDensity: 58
+  NoiseDensity: 55
   Iterations: 4
+  Layered: 0
+  layers: []
