@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: GoldOre
   m_EditorClassIdentifier: Assembly-CSharp::TileDataSO
   type: 4
-  tileColour: {r: 0.6509434, g: 0.6463678, b: 0.35924706, a: 1}
+  tileColour: {r: 0.9245283, g: 0.9130366, b: 0.07413671, a: 1}
   tileSprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   isSolid: 1
   canConvert: 0
-  minDepth: 0
-  maxDepth: 0
+  isWall: 0

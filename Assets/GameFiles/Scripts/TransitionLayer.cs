@@ -8,7 +8,7 @@ public class TransitionLayer : GenerationLayerSO
 
     public override TileType GenerateTile(float NormalizedY)
     {
-        // Where witin the min/max range is the given tile's Y
+        // Where within the min/max range is the given tile's Y
         float t = Mathf.InverseLerp(MinY, MaxY, NormalizedY);
         t = Mathf.SmoothStep(0f, 1f, t);
         

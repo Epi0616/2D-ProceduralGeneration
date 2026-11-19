@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: SilverOre
   m_EditorClassIdentifier: Assembly-CSharp::TileDataSO
   type: 5
-  tileColour: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
+  tileColour: {r: 0.9339623, g: 0.885502, b: 0.885502, a: 1}
   tileSprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   isSolid: 1
-  minDepth: 0
-  maxDepth: 0
+  canConvert: 1
+  isWall: 0

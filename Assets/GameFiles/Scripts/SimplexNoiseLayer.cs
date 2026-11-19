@@ -12,9 +12,9 @@ public class SimplexNoiseLayer : NoiseLayer
         {
             for (int y = 0; y < height; y++)
             {
-                //NoiseMap[x, y] = Mathf.RoundToInt(SimplexMap[math.clamp(x + seed, 0, width), math.clamp(y + seed, 0, height)]);
+                
                 NoiseMap[x, y] = Mathf.RoundToInt((Noise.CalcPixel2D(x, y, NoiseDensity) / 256));
-                //Debug.Log(NoiseMap[x, y]);               
+                       
             }
         }
         

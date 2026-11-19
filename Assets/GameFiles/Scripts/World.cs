@@ -118,7 +118,16 @@ public class World : MonoBehaviour
         yield return new WaitForSeconds(generationOptions.Delay);
         if (generationOptions.UsesWalls) { PlaceWallsBasedOnSky(); }
 
+        Debug.Log("Converting Tiles to Common Neighbour");
+        ConvertTilesToNeighbours();
+        yield return new WaitForSeconds(generationOptions.Delay);
+
+
+        DetermineSkyConnectivity();
+
         GrowGrass();
+
+        
 
         yield return new WaitForSeconds(7.5f);
         currentIterations++;
@@ -715,8 +724,14 @@ public class World : MonoBehaviour
                 {
                     if (isPositionSolid(new Vector2Int(x, y))) { continue; }
                     
-                    // If the tile isn't solid and isn't connected to the sky, convert it to a wall
-                    if (!worldTiles[x, y].isSkyConnected || NormalisedY(x, y) < 0.82f)
+                    // If the tile isn't solid and isn't connected to the sky, convert it to a wall, includes a depth failsafe
+                    if (!worldTiles[x, y].isSkyConnected)
+                    {                      
+                        TileType newType = layer.GenerateWallTile(NormalisedY(y));
+                        worldTiles[x, y].type = newType;
+                        worldVisuals[x, y].UpdateVisualFromTileData(TileDictionary.Instance.FetchTileDataByType(newType));
+                    }
+                    else if(NormalisedY(x, y) < (0.85f + Random.Range(-0.03f , 0.03f)) && worldTiles[x, y].isSkyConnected)
                     {
                         TileType newType = layer.GenerateWallTile(NormalisedY(y));
                         worldTiles[x, y].type = newType;
@@ -729,6 +744,15 @@ public class World : MonoBehaviour
 
     private void DetermineSkyConnectivity()
     {
+        for (int x = 0; x < generationOptions.width; x++)
+        {
+            for (int y = 0; y < generationOptions.height; y++)
+            {
+                worldTiles[x, y].isSkyConnected = false;
+                worldTiles[x, y].isAirExposed = false;
+            }
+        }
+
         Queue<Vector2Int> floodFillQueue = new Queue<Vector2Int>();
         
         // Populate the queue with the top row of world tiles
